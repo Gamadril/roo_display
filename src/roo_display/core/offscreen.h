@@ -70,7 +70,7 @@ class AddressWindow {
   int16_t x() const { return cursor_x_; }
   int16_t y() const { return cursor_y_; }
 
-  const uint32_t offset() const { return offset_; }
+  uint32_t offset() const { return offset_; }
   Orientation orientation() const { return orientation_; }
   int16_t advance_x() const { return advance_x_; }
   int32_t advance_y() const { return advance_y_; }

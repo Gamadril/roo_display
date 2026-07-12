@@ -70,7 +70,7 @@ class TextLabel : public Drawable {
   /// Return the label color.
   const Color color() const { return color_; }
   /// Return the fill mode.
-  const FillMode fill_mode() const { return fill_mode_; }
+  FillMode fill_mode() const { return fill_mode_; }
 
   /// Set the label color.
   void setColor(Color color) { color_ = color; }
@@ -150,7 +150,7 @@ class StringViewLabel : public Drawable {
   /// Return the label color.
   const Color color() const { return color_; }
   /// Return the fill mode.
-  const FillMode fill_mode() const { return fill_mode_; }
+  FillMode fill_mode() const { return fill_mode_; }
 
   /// Set the label color.
   void setColor(Color color) { color_ = color; }

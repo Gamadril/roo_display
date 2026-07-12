@@ -76,16 +76,16 @@ void DmaController::begin() {
   } else {
     spi_dma_ctx_t* tmp_ctx = nullptr;
     esp_err_t err =
-        spicommon_dma_chan_alloc(host_id_, SPI_DMA_CH_AUTO, &tmp_ctx);
+        spicommon_dma_chan_alloc(host_id_, SPI_DMA_CH_AUTO/*, &tmp_ctx */);
     if (err != ESP_OK || tmp_ctx == nullptr) {
       dma_ctx_ = nullptr;
       return;
     }
     int actual_max_transfer = 0;
-    err = spicommon_dma_desc_alloc(tmp_ctx, kDmaBufferCapacity,
+    err = spicommon_dma_desc_alloc(host_id_, kDmaBufferCapacity,
                                    &actual_max_transfer);
     if (err != ESP_OK || actual_max_transfer < kDmaBufferCapacity) {
-      spicommon_dma_chan_free(tmp_ctx);
+      spicommon_dma_chan_free(host_id_);
       dma_ctx_ = nullptr;
       return;
     }
@@ -98,7 +98,7 @@ void DmaController::begin() {
   irq_dispatcher_ = GetIrqDispatcher(spi_port);
   if (irq_dispatcher_ == nullptr) {
     if (owned_dma_ctx_ != nullptr) {
-      spicommon_dma_chan_free(owned_dma_ctx_);
+      spicommon_dma_chan_free(host_id_);
       owned_dma_ctx_ = nullptr;
     }
     dma_ctx_ = nullptr;
@@ -124,7 +124,7 @@ void DmaController::end() {
 
   irq_dispatcher_ = nullptr;
   if (owned_dma_ctx_ != nullptr) {
-    spicommon_dma_chan_free(owned_dma_ctx_);
+    spicommon_dma_chan_free(host_id_);
     owned_dma_ctx_ = nullptr;
   }
 

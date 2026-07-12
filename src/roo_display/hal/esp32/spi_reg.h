@@ -6,7 +6,7 @@
 #include "roo_io/data/byte_order.h"
 #include "soc/spi_reg.h"
 
-#pragma PUSH_MACRO("ASSERT_IF_DPORT_REG")
+#pragma push_macro("ASSERT_IF_DPORT_REG")
 
 // Used by WRITE_PERI_REG and READ_PERI_REG, and causes trouble on ESP32 with
 // IRAM_ATTR, leading to 'dangerous relocation: l32r: literal placed after use'
@@ -484,6 +484,6 @@ inline void SpiFillUpTo60(uint8_t spi_port, uint32_t d0, uint32_t d1,
 }  // namespace esp32
 }  // namespace roo_display
 
-#pragma POP_MACRO("ASSERT_IF_DPORT_REG")
+#pragma pop_macro("ASSERT_IF_DPORT_REG")
 
 #endif  // ROO_TESTING

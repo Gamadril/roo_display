@@ -39,8 +39,6 @@ CopyBytesIram(roo::byte* dst, const roo::byte* src, size_t len) {}
 IRAM_ATTR void memcpy_isr(void* dest, const void* src, size_t n) {
   char* dest_ch = static_cast<char*>(dest);
   const char* src_ch = static_cast<const char*>(src);
-  (void*)src;
-  (void*)dest;
   if (n >= 4 && IsWordAligned(dest_ch) && IsWordAligned(src_ch)) {
     size_t words = n >> 2;
     CopyWords32Unrolled(reinterpret_cast<uint32_t*>(dest_ch),

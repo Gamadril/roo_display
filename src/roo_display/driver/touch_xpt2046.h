@@ -132,13 +132,7 @@ ConversionResult single_conversion(Spi& spi, uint16_t z_threshold, uint16_t* x,
 
 template <int pinCS, typename Spi, typename Gpio>
 int TouchXpt2046<pinCS, Spi, Gpio>::readTouch(TouchPoint* touch_point) {
-  // long now = micros();
   int z_threshold = kInitialTouchZThreshold;
-  // if (pressed_ &&
-  //     (now - latest_confirmed_pressed_timestamp_ < kTouchSensitivityLagMs) &&
-  //     z_threshold > kSustainedTouchZThreshold) {
-  //   z_threshold = kSustainedTouchZThreshold;
-  // }
 
   SpiReadWriteTransaction<pinCS, decltype(device_), Gpio> transaction(device_);
 
@@ -149,7 +143,6 @@ int TouchXpt2046<pinCS, Spi, Gpio>::readTouch(TouchPoint* touch_point) {
   int32_t z_max = 0;
   int count = 0;
 
-  // Discard a few initial conversions so that the sensor settles.
   for (int i = 0; i < 5; ++i) {
     ConversionResult result =
         single_conversion(device_, z_threshold, &x_tmp, &y_tmp, &z_tmp);
@@ -176,9 +169,9 @@ int TouchXpt2046<pinCS, Spi, Gpio>::readTouch(TouchPoint* touch_point) {
     }
   }
 
-  // Re-enable PENIRQ: send any control byte with PD0=0 while CS is still low.
-  device_.transfer(roo::byte{0x82});
-  device_.transfer16(0x0000);  // clock out response, discard
+// Re-enable PENIRQ: send any control byte with PD0=0 while CS is still low.
+device_.transfer(roo::byte{0x82});
+device_.transfer16(0x0000);  // clock out response, discard
 
   if (!settled_enough) {
     pressed_ = false;

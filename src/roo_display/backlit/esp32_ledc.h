@@ -99,6 +99,7 @@ class LedcBacklit : public Backlit {
         .timer_num = timer_,
         .freq_hz = 50000,
         .clk_cfg = LEDC_AUTO_CLK,
+        .deconfigure = false,
     };
     ESP_ERROR_CHECK(ledc_timer_config(&timer_config));
 
@@ -110,6 +111,11 @@ class LedcBacklit : public Backlit {
         .timer_sel = timer_,
         .duty = 0,
         .hpoint = 0,
+        .sleep_mode = LEDC_SLEEP_MODE_NO_ALIVE_NO_PD,
+        .flags = {
+            .output_invert = 0,
+        },
+        .deconfigure = false,
     };
     ESP_ERROR_CHECK(ledc_channel_config(&channel_config));
     setIntensity(intensity);
@@ -148,6 +154,7 @@ class LedcBacklitAtChannel : public Backlit {
         .timer_num = timer_,
         .freq_hz = 50000,
         .clk_cfg = LEDC_AUTO_CLK,
+        .deconfigure = false,
     };
     ESP_ERROR_CHECK(ledc_timer_config(&timer_config));
 
@@ -159,6 +166,11 @@ class LedcBacklitAtChannel : public Backlit {
         .timer_sel = timer_,
         .duty = 0,
         .hpoint = 0,
+        .sleep_mode = LEDC_SLEEP_MODE_NO_ALIVE_NO_PD,
+        .flags = {
+            .output_invert = 0,
+        },
+        .deconfigure = false,
     };
     ESP_ERROR_CHECK(ledc_channel_config(&channel_config));
     setIntensity(intensity);

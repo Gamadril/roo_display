@@ -281,11 +281,11 @@ class DrawingContext {
   const Box& bounds() const { return bounds_; }
 
   /// Returns the width of the drawing context. Equivalent to bounds().width().
-  const uint16_t width() const { return bounds_.width(); }
+  uint16_t width() const { return bounds_.width(); }
 
   /// Returns the height of the drawing context. Equivalent to
   /// bounds().height().
-  const uint16_t height() const { return bounds_.height(); }
+  uint16_t height() const { return bounds_.height(); }
 
   void setBackground(const Rasterizable* bg) { background_ = bg; }
   const Rasterizable* getBackground() const { return background_; }

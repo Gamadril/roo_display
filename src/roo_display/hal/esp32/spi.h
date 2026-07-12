@@ -79,8 +79,16 @@ class Esp32Spi {
         .sclk_io_num = -1,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
+        .data4_io_num = -1,
+        .data5_io_num = -1,
+        .data6_io_num = -1,
+        .data7_io_num = -1,
+        .data_io_default_level = false,
         .max_transfer_sz = 4096,
-        .intr_flags = SpiIrqFlags(),
+        .flags = SPICOMMON_BUSFLAG_MASTER,
+        .isr_cpu_id = ESP_INTR_CPU_AFFINITY_AUTO,
+        //.intr_flags = SpiIrqFlags(),
+        .intr_flags = 0,
     };
     ESP_ERROR_CHECK(spi_bus_initialize(spi_, &config, SPI_DMA_CH_AUTO));
   }
@@ -99,8 +107,16 @@ class Esp32Spi {
         .sclk_io_num = sck,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
+        .data4_io_num = -1,
+        .data5_io_num = -1,
+        .data6_io_num = -1,
+        .data7_io_num = -1,
+        .data_io_default_level = false,
         .max_transfer_sz = 4096,
-        .intr_flags = SpiIrqFlags(),
+        .flags = SPICOMMON_BUSFLAG_MASTER,
+        .isr_cpu_id = ESP_INTR_CPU_AFFINITY_AUTO,
+        //.intr_flags = SpiIrqFlags(),
+        .intr_flags = 0,
     };
     ESP_ERROR_CHECK(spi_bus_initialize(spi_, &config, SPI_DMA_CH_AUTO));
   }
@@ -154,11 +170,14 @@ class Esp32SpiDevice {
         .cs_ena_posttrans = 0,
         .clock_speed_hz = SpiSettings::clock,
         .input_delay_ns = 0,
+        .sample_point = SPI_SAMPLING_POINT_PHASE_0,
         .spics_io_num = -1,
         .flags = {SpiSettings::bit_order == kSpiLsbFirst
                       ? SPI_DEVICE_BIT_LSBFIRST
                       : 0},
         .queue_size = 1,
+        .pre_cb = nullptr,
+        .post_cb = nullptr,
     };
     ESP_ERROR_CHECK(spi_bus_add_device(spi_, &config_, &device_));
 #endif
